@@ -8,8 +8,6 @@ import cv2
 from mtcnn.mtcnn import MTCNN
 from matplotlib import pyplot as plt
 
-
-
 # -------Configuracion colores y letra-------
 path = os.getcwd() + "/"
 
@@ -45,7 +43,6 @@ def imprimirMensaje(screen, text, flag):
         print(color_error + text + color_normal)
         Label(screen, text=text, fg="red", bg=color_background, font=(font_label, 12)).pack()
 
-
 def configurarPantalla(screen, text, image_screen):
     screen.title(text)
     screen.geometry(size_screen)
@@ -77,6 +74,14 @@ def capturarRostroRegistro():
 
     while True:
         ret, frame = cap.read()
+        
+        faceClassif = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalface_default.xml')
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = faceClassif.detectMultiScale(gray,1.2, 5)
+
+        for (x,y,w,h) in faces:
+            cv2.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
+        
         cv2.imshow("Registro Facial", frame)
         if cv2.waitKey(0) == 27:
             break
@@ -100,7 +105,6 @@ def ventanaRegistro():
         
     configurarPantalla(screen1, txt_registro, bg_img_registro)
     usuario_entry1 = configurarEntradaDatos(screen1, usuario1, 0)
-
 
 root = Tk()
 
@@ -132,9 +136,5 @@ Button(text=txt_ingreso, fg=color_blanco, bg=color_negro_btn, activebackground=c
 
 saltoDeLinea(root)
 Button(text=txt_registro, fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40", command=ventanaRegistro).pack()
-
-
-
-
 
 root.mainloop()
