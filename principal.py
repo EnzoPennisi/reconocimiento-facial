@@ -31,6 +31,32 @@ color_error = "\033[1;31;40m"
 color_normal = "\033[0;37;40m"
 
 
+def configurarPantalla(screen, text, image_screen):
+    screen.title(text)
+    screen.geometry(size_screen)
+    screen.configure(bg=color_background)
+    
+    Label(screen, image=image_screen, bg=color_negro, text=f"{text}", fg=color_blanco, font=(font_label, 18), width="500", height="2").place(relwidth=1, relheight=1) 
+
+def configurarEntradaDatos(screen, var, flag):   
+    Label(screen, text="Ingrese usuario:", fg=color_blanco, bg=color_negro, font=(font_label, 12)).pack()
+    
+    entry = Entry(screen, textvariable=var, justify=CENTER, font=(font_label, 12))
+    entry.focus_force()
+    entry.pack(side=TOP, ipadx=30, ipady=6)
+    frame = Frame(screen)
+    frame.pack()
+
+def ventanaRegistro():
+    global usuario1
+    global usuario_entry1
+    global screen1
+
+    screen1 = Toplevel(root)
+    usuario1 = StringVar()
+        
+    configurarPantalla(screen1, txt_registro, bg_img_registro)
+    usuario_entry1 = configurarEntradaDatos(screen1, usuario1, 0)
 
 
 root = Tk()
@@ -62,7 +88,7 @@ Label(text="¿Seras digno del ingreso?", fg=color_blanco, bg=color_negro, font=(
 Button(text=txt_ingreso, fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40").pack()
 
 
-Button(text=txt_registro, fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40").pack()
+Button(text=txt_registro, fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40", command=ventanaRegistro).pack()
 
 
 
