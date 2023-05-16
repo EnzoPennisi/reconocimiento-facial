@@ -66,6 +66,25 @@ def configurarEntradaDatos(screen, var, flag):
     
     return entry
 
+def recortarRostro(img, faces):
+    
+    pathRegistro = os.getcwd() + "/Capturas Registro"
+    
+    #Crear una carpeta para la persona en caso de que no exista
+    if not os.path.exists(pathRegistro):
+        os.makedirs(pathRegistro);
+    
+    data = plt.imread(img)
+    for i in range(len(faces)):
+        x1, y1, ancho, alto = faces[i]["box"]
+        x2, y2 = x1 + ancho, y1 + alto
+        plt.subplot(1,len(faces), i + 1)
+        plt.axis("off")
+        face = cv2.resize(data[y1:y2, x1:x2],(150,200), interpolation=cv2.INTER_CUBIC)
+        nombre_imagen = f"{pathRegistro}/{img}"
+        cv2.imwrite(nombre_imagen, face)
+        plt.imshow(data[y1:y2, x1:x2])
+
 #REGISTRO 
 def capturarRostroRegistro():
     cap = cv2.VideoCapture(0)
@@ -78,22 +97,39 @@ def capturarRostroRegistro():
         faceClassif = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalface_default.xml')
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = faceClassif.detectMultiScale(gray,1.2, 5)
+        
+        cv2.rectangle(frame, (10, 5), (240, 25), (50, 50, 50), -1)
+        cv2.putText(frame, 'Presione G, para registrarse', (10, 20), 2, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.rectangle(frame, (10, 50), (210, 25), (50, 50, 50), -1)
+        cv2.putText(frame, 'presione Esc para salir', (10, 45), 2, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
         for (x,y,w,h) in faces:
             cv2.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
         
         cv2.imshow("Registro Facial", frame)
-        if cv2.waitKey(0) == 27:
+        key = cv2.waitKey(1)
+        if key == ord("g"):
+            registrar = True
+            break
+        elif key == 27:
+            registrar = False
             break
     
-    cv2.imwrite(img, frame)
-    cap.release()
-    cv2.destroyAllWindows()
+    if registrar:
+        cv2.imwrite(img, frame)
+        cap.release()
+        cv2.destroyAllWindows()
 
-    usuario_entry1.delete(0, END)
+        usuario_entry1.delete(0, END)
     
-    pixeles = plt.imread(img)
-    faces = MTCNN().detect_faces(pixeles)
+        pixeles = plt.imread(img)
+        faces = MTCNN().detect_faces(pixeles)
+        recortarRostro(img, faces)
+        os.remove(img)
+    else:
+        cap.release()
+        cv2.destroyAllWindows()
+        imprimirMensaje(screen1, "¡Registro Cancelado!", 1) 
         
 def ventanaRegistro():
     global usuario1
