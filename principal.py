@@ -1,4 +1,4 @@
-#-------Importar librerias -------
+# Importar librerias
 
 from tkinter import *
 from tkinter import messagebox as msg
@@ -8,29 +8,27 @@ import cv2
 from mtcnn.mtcnn import MTCNN
 from matplotlib import pyplot as plt
 
-# -------Configuracion colores y letra-------
+# Configuracion colores y letra
 path = os.getcwd() + "/"
 
 txt_ingreso = "Inicio de Sesión"
-txt_registro = "Cual sera tu eleccion"
+txt_registro = "Registrarse"
 
 color_blanco = "#f4f5f4"
 color_negro = "#101010"
-color_verde = "#42FF00"
-
 color_negro_btn = "#202020"
 color_background = "#ADA7A7"
 
 font_label = "Calibri"
 size_screen = "1000x1000"
 
-# colores consola
+# Colores consola
 color_exito = "\033[1;32;40m"
 color_error = "\033[1;31;40m"
 color_normal = "\033[0;37;40m"
 
 
-#GENERAL
+# GENERAL
 def saltoDeLinea(screen):
     Label(screen, text="", bg=color_background).pack()
     
@@ -86,7 +84,7 @@ def recortarRostro(img, faces):
         cv2.imwrite(nombre_imagen, face)
         plt.imshow(data[y1:y2, x1:x2])
 
-#REGISTRO 
+# REGISTRO 
 def capturarRostroRegistro():
     cap = cv2.VideoCapture(0)
     usuario_reg_img = usuario1.get()
@@ -143,7 +141,7 @@ def ventanaRegistro():
     configurarPantalla(screen1, txt_registro, bg_img_registro)
     usuario_entry1 = configurarEntradaDatos(screen1, usuario1, 0)
     
-#INGRESO 
+# INGRESO 
 def ventanaIngreso():
     global screen2
     global usuario2
@@ -179,11 +177,11 @@ bg_img_registro = PhotoImage(file=img_registro)
 bg_label = Label(root, image=bg_img_home)
 bg_label.place(relwidth=1, relheight=1)
 
-#Mensaje de bienvenida
+# Mensaje de bienvenida
 Label(text="¡Bienvenido!", fg=color_blanco, bg=color_negro, font=(font_label, 20), width="500", height="2").pack()
 Label(text="¿Seras digno del ingreso?", fg=color_blanco, bg=color_negro, font=(font_label, 20), width="500", height="2").pack() 
 
-#Botones de ingreso y registro
+# Botones de ingreso y registro
 saltoDeLinea(root)
 Button(text=txt_ingreso, fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40", command=ventanaIngreso).pack()
 
