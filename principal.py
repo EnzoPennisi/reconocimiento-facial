@@ -61,9 +61,10 @@ def configurarEntradaDatos(screen, var, flag):
     frame = Frame(screen)
     frame.pack()
     
-    if flag == 0:
+    if flag:
+        Button(frame, text="Permitir acceso",fg=color_blanco, bg=color_negro_btn, borderwidth=10, font=(font_label, 14), height="2", width="40").grid(row=20, column=0, padx=0, pady=0, sticky="nsew")
+    else:
         Button(frame, text="Registrarse", fg=color_blanco, bg=color_negro, borderwidth=10,font=(font_label, 14), height="2", width="40", command=capturarRostroRegistro).grid(row=5, column=0, padx=0, pady=0, sticky="nsew")
-    
     return entry
 
 def recortarRostro(img, faces):
@@ -141,7 +142,23 @@ def ventanaRegistro():
         
     configurarPantalla(screen1, txt_registro, bg_img_registro)
     usuario_entry1 = configurarEntradaDatos(screen1, usuario1, 0)
+    
+#INGRESO 
+def ventanaIngreso():
+    global screen2
+    global usuario2
+    global usuario_entry2
 
+    screen2 = Toplevel(root)
+    usuario2 = StringVar()
+    
+    configurarPantalla(screen2, txt_ingreso, bg_img_ingreso)
+    usuario_entry2 = configurarEntradaDatos(screen2, usuario2, 1)
+    
+def salir():
+    root.destroy()
+    quit()
+    
 root = Tk()
 
 root.geometry(size_screen)
@@ -168,9 +185,12 @@ Label(text="¿Seras digno del ingreso?", fg=color_blanco, bg=color_negro, font=(
 
 #Botones de ingreso y registro
 saltoDeLinea(root)
-Button(text=txt_ingreso, fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40").pack()
+Button(text=txt_ingreso, fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40", command=ventanaIngreso).pack()
 
 saltoDeLinea(root)
 Button(text=txt_registro, fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40", command=ventanaRegistro).pack()
+
+saltoDeLinea(root)
+Button(text="Salir", fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40", command=salir).pack()
 
 root.mainloop()
