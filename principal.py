@@ -157,6 +157,33 @@ def compatibilidad(img1, img2):
         return 0
     return len(similar)/len(matches)
 
+def capturarRostroIngreso():
+    cap = cv2.VideoCapture(0)
+    usuario_ingreso = usuario2.get()
+    img = f"{usuario_ingreso}_login.jpg"
+    img_usuario = f"{usuario_ingreso}.jpg"
+
+    while True:
+        ret, frame = cap.read()
+        cv2.imshow("Login Facial", frame)
+        
+        
+        key = cv2.waitKey(1)
+        if key == 27:            
+            break;
+    
+    cv2.imwrite(img, frame)
+    cap.release()
+    cv2.destroyAllWindows()
+
+    usuario_entry2.delete(0, END)
+    
+    pixeles = plt.imread(img)
+    faces = MTCNN().detect_faces(pixeles)
+
+    recortarRostro(img, faces)
+    saltoDeLinea(screen2)
+
 def ventanaIngreso():
     global screen2
     global usuario2
