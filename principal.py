@@ -30,9 +30,13 @@ color_normal = "\033[0;37;40m"
 
 # GENERAL ----------------------------------------------------------------
 def saltoDeLinea(screen):
+    # Agrega un salto de linea dentro de la ventana
+    
     Label(screen, text="", bg=color_background).pack()
     
 def imprimirMensaje(screen, text, flag):
+    # Imprime un mensaje por consola y ventana
+    
     if flag:
         print(color_exito + text + color_normal)
         screen.destroy()
@@ -42,13 +46,17 @@ def imprimirMensaje(screen, text, flag):
         Label(screen, text=text, fg="red", bg=color_background, font=(font_label, 12)).pack()
 
 def configurarPantalla(screen, text, image_screen):
+    # Configura la ventana emergente
+    
     screen.title(text)
     screen.geometry(size_screen)
     screen.configure(bg=color_background)
     
     Label(screen, image=image_screen, bg=color_negro, text=f"{text}", fg=color_blanco, font=(font_label, 18), width="500", height="2").place(relwidth=1, relheight=1) 
 
-def configurarEntradaDatos(screen, var, flag):   
+def configurarEntradaDatos(screen, var, flag): 
+    # Configura la entrada de datos para ingreso y registro segun corresponda
+    
     Label(screen, text="Ingrese usuario:", fg=color_blanco, bg=color_negro, font=(font_label, 12)).pack()
     
     entry = Entry(screen, textvariable=var, justify=CENTER, font=(font_label, 12))
@@ -66,6 +74,7 @@ def configurarEntradaDatos(screen, var, flag):
     return entry
 
 def recortarRostro(img, faces):
+    # Recorta y guarda la seccion del rostro utilizada por el detector
     
     path_registro = os.getcwd() + "/Capturas Registro"
     
@@ -86,6 +95,8 @@ def recortarRostro(img, faces):
 
 # REGISTRO ---------------------------------------------------------------- 
 def capturarRostroRegistro():
+    # Captura el rostro al registrarse y envia un mensaje con los resultados del mismo
+    
     cap = cv2.VideoCapture(0)
     usuario_reg_img = usuario1.get()
     img = f"{usuario_reg_img}.jpg"
@@ -133,6 +144,8 @@ def capturarRostroRegistro():
         imprimirMensaje(screen1, "¡Registro Cancelado!", 1) 
         
 def ventanaRegistro():
+    # Crea la ventana de registro
+    
     global usuario1
     global usuario_entry1
     global screen1
@@ -145,6 +158,8 @@ def ventanaRegistro():
     
 # INGRESO ----------------------------------------------------------------
 def compatibilidad(img1, img2):
+    # Verifica la compatibilidad de la imagen capturada con la que fue guardada en el registro
+    
     orb = cv2.ORB_create()
 
     kpa, dac1 = orb.detectAndCompute(img1, None)
@@ -160,6 +175,8 @@ def compatibilidad(img1, img2):
     return len(similar)/len(matches)
 
 def capturarRostroIngreso():
+    # Captura el rostro al ingresar y entrega un mensaje con los resultados de compatibiildad
+    
     cap = cv2.VideoCapture(0)
     usuario_ingreso = usuario2.get()
     img = f"{usuario_ingreso}_login.jpg"
@@ -195,7 +212,7 @@ def capturarRostroIngreso():
         comp = compatibilidad(face_reg, face_ing)
         compResul = "{}Compatibilidad del {:.1%}{}".format(color_error, float(comp), color_normal)
         porcentaje = float(comp) * 100
-        if comp >= 0.90:
+        if comp >= 0.93:
             print(compResul)
             imprimirMensaje(screen2, f"Bienvenido, {usuario_ingreso}", 1)
         else:
@@ -207,6 +224,8 @@ def capturarRostroIngreso():
     os.remove(img)
 
 def ventanaIngreso():
+    # Crea la ventana de ingreso
+    
     global screen2
     global usuario2
     global usuario_entry2
@@ -218,7 +237,11 @@ def ventanaIngreso():
     usuario_entry2 = configurarEntradaDatos(screen2, usuario2, 1)
     
 def salir():
+    # Cierra la ejecucion
+    
     root.destroy()
+
+# VENTANA PRINCIPAL
     
 root = Tk()
 
