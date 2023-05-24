@@ -60,18 +60,18 @@ def configurarEntradaDatos(screen, var, flag):
     frame.pack()
     
     if flag:
-        Button(frame, text="Permitir acceso",fg=color_blanco, bg=color_negro_btn, borderwidth=10, font=(font_label, 14), height="2", width="40").grid(row=20, column=0, padx=0, pady=0, sticky="nsew")
+        Button(frame, text="Permitir acceso",fg=color_blanco, bg=color_negro_btn, borderwidth=10, font=(font_label, 14), height="2", width="40",command=capturarRostroIngreso).grid(row=20, column=0, padx=0, pady=0, sticky="nsew")
     else:
         Button(frame, text="Registrarse", fg=color_blanco, bg=color_negro, borderwidth=10,font=(font_label, 14), height="2", width="40", command=capturarRostroRegistro).grid(row=5, column=0, padx=0, pady=0, sticky="nsew")
     return entry
 
 def recortarRostro(img, faces):
     
-    pathRegistro = os.getcwd() + "/Capturas Registro"
+    path_registro = os.getcwd() + "/Capturas Registro"
     
-    #Crear una carpeta para la persona en caso de que no exista
-    if not os.path.exists(pathRegistro):
-        os.makedirs(pathRegistro);
+    #Crear una carpeta para guardar las capturas de registro en caso de que no exista
+    if not os.path.exists(path_registro):
+        os.makedirs(path_registro);
     
     data = plt.imread(img)
     for i in range(len(faces)):
@@ -80,7 +80,7 @@ def recortarRostro(img, faces):
         plt.subplot(1,len(faces), i + 1)
         plt.axis("off")
         face = cv2.resize(data[y1:y2, x1:x2],(150,200), interpolation=cv2.INTER_CUBIC)
-        nombre_imagen = f"{pathRegistro}/{img}"
+        nombre_imagen = f"{path_registro}/{img}"
         cv2.imwrite(nombre_imagen, face)
         plt.imshow(data[y1:y2, x1:x2])
 
@@ -92,6 +92,7 @@ def capturarRostroRegistro():
 
     while True:
         ret, frame = cap.read()
+        frame_original = frame.copy()
         
         faceClassif = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalface_default.xml')
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -115,7 +116,7 @@ def capturarRostroRegistro():
             break
     
     if registrar:
-        cv2.imwrite(img, frame)
+        cv2.imwrite(img, frame_original)
         cap.release()
         cv2.destroyAllWindows()
 
@@ -125,6 +126,7 @@ def capturarRostroRegistro():
         faces = MTCNN().detect_faces(pixeles)
         recortarRostro(img, faces)
         os.remove(img)
+        imprimirMensaje(screen1, "¡Registro Exitoso!", 1) 
     else:
         cap.release()
         cv2.destroyAllWindows()
@@ -165,11 +167,14 @@ def capturarRostroIngreso():
 
     while True:
         ret, frame = cap.read()
+        
+        cv2.rectangle(frame, (10, 5), (240, 25), (50, 50, 50), -1)
+        cv2.putText(frame, 'Presione I, para ingresar', (10, 20), 2, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+        
         cv2.imshow("Login Facial", frame)
-        
-        
+                
         key = cv2.waitKey(1)
-        if key == 27:            
+        if key == ord("i"):            
             break;
     
     cv2.imwrite(img, frame)
@@ -183,6 +188,27 @@ def capturarRostroIngreso():
 
     recortarRostro(img, faces)
     saltoDeLinea(screen2)
+    
+    path_registro = os.path.join(os.getcwd(), "Capturas Registro")
+    path_imagenUsuario = os.path.join(path_registro, img_usuario)
+    path_imagenLogin = os.path.join(path_registro, img)
+    if os.path.exists(path_imagenUsuario):
+        face_reg = cv2.imread(path_imagenUsuario, 0)
+        face_ing = cv2.imread(img, 0)
+
+        comp = compatibilidad(face_reg, face_ing)
+        compResul = "{}Compatibilidad del {:.1%}{}".format(color_error, float(comp), color_normal)
+        porcentaje = float(comp) * 100
+        if comp >= 0.94:
+            print(compResul)
+            imprimirMensaje(screen2, f"Bienvenido, {usuario_ingreso}", 1)
+        else:
+            print(compResul)
+            imprimirMensaje(screen2, f"¡Error! Incompatibilidad de datos {porcentaje}%", 0)
+    else:
+        imprimirMensaje(screen2, "¡Error! Usuario no encontrado", 0)
+    os.remove(path_imagenLogin)
+    os.remove(img)
 
 def ventanaIngreso():
     global screen2
@@ -197,7 +223,6 @@ def ventanaIngreso():
     
 def salir():
     root.destroy()
-    quit()
     
 root = Tk()
 
