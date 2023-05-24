@@ -28,7 +28,7 @@ color_error = "\033[1;31;40m"
 color_normal = "\033[0;37;40m"
 
 
-# GENERAL
+# GENERAL ----------------------------------------------------------------
 def saltoDeLinea(screen):
     Label(screen, text="", bg=color_background).pack()
     
@@ -84,7 +84,7 @@ def recortarRostro(img, faces):
         cv2.imwrite(nombre_imagen, face)
         plt.imshow(data[y1:y2, x1:x2])
 
-# REGISTRO 
+# REGISTRO ---------------------------------------------------------------- 
 def capturarRostroRegistro():
     cap = cv2.VideoCapture(0)
     usuario_reg_img = usuario1.get()
@@ -143,7 +143,7 @@ def ventanaRegistro():
     configurarPantalla(screen1, txt_registro, bg_img_registro)
     usuario_entry1 = configurarEntradaDatos(screen1, usuario1, 0)
     
-# INGRESO
+# INGRESO ----------------------------------------------------------------
 def compatibilidad(img1, img2):
     orb = cv2.ORB_create()
 
@@ -167,14 +167,10 @@ def capturarRostroIngreso():
 
     while True:
         ret, frame = cap.read()
-        
-        cv2.rectangle(frame, (10, 5), (240, 25), (50, 50, 50), -1)
-        cv2.putText(frame, 'Presione I, para ingresar', (10, 20), 2, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-        
         cv2.imshow("Login Facial", frame)
                 
         key = cv2.waitKey(1)
-        if key == ord("i"):            
+        if MTCNN().detect_faces(frame):            
             break;
     
     cv2.imwrite(img, frame)
@@ -199,7 +195,7 @@ def capturarRostroIngreso():
         comp = compatibilidad(face_reg, face_ing)
         compResul = "{}Compatibilidad del {:.1%}{}".format(color_error, float(comp), color_normal)
         porcentaje = float(comp) * 100
-        if comp >= 0.94:
+        if comp >= 0.90:
             print(compResul)
             imprimirMensaje(screen2, f"Bienvenido, {usuario_ingreso}", 1)
         else:
