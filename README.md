@@ -58,3 +58,22 @@ El programa requiere las siguientes bibliotecas y componentes:
 Para ejecutar el programa, asegúrese de tener instaladas las bibliotecas mencionadas anteriormente. Luego, guarde el código en un archivo con extensión .py. Asegúrese de tener las imágenes de fondo (f.png) y actualice las rutas de las imágenes en el código para que coincidan con la ubicación de los archivos en su sistema.
 
 Una vez que el código y las imágenes están configurados, puede ejecutar el programa ejecutando el archivo .py. Se abrirá una ventana principal que le permitirá seleccionar la opción de inicio de sesión o registro.
+
+### Conclusión (parcial):
+
+Este proyecto de investigación se ha centrado en el desarrollo y aplicación de un sistema de autenticación que usa reconocimiento facial con Python en Linux. Mediante el uso de bibliotecas como Tkinter y OpenCV, se consiguió crear un prototipo funcional que permite a los usuarios registrarse y acceder al sistema usando imágenes faciales en vez de contraseñas.
+
+A lo largo del desarrollo del proyecto, se exploraron y entendieron los principios del reconocimiento facial, se escogieron y analizaron los componentes necesarios para su aplicación, y se logró diseñar e implementar un sistema capaz de capturar, procesar y comparar imágenes faciales para autenticar a los usuarios.
+
+La evaluación de la exactitud y eficiencia del sistema propuesto mostró resultados prometedores, aunque es importante tener en cuenta que todavía hay retos y oportunidades de mejora. En ese sentido, se plantearon objetivos a futuro, como la incorporación de una base de datos relacional SQL para optimizar el almacenamiento y gestión de registros de usuarios, la simplificación del proceso de registro, la reducción del tamaño del proyecto eliminando la carpeta de capturas de registro y la implementación de opciones para administrar los datos de los usuarios.
+
+En suma, este proyecto ha establecido las bases para la aplicación de un sistema de autenticación que usa reconocimiento facial, ofreciendo una alternativa segura y conveniente a las contraseñas tradicionales. Con mejoras y refinamientos adicionales, este sistema tiene el potencial de ser una solución efectiva y confiable en entornos de autenticación.
+
+### Instructivo para compilar el proyecto: 
+
+El proyecto se ha desarrollado utilizando la versión de Python que viene instalada por defecto con la versión de Ubuntu 22.04.2 LTS.
+Este requiere de una serie de librerías que deben ser instaladas previamente para garantizar su correcto funcionamiento. Estas librerías son: pip, tkinter, opencv, matplotlib, mtcnn y tensorflow. Además, se deben instalar las dependencias necesarias para cada una de estas librerías.
+Para facilitar el proceso de instalación, se proporciona un archivo llamado “instalar_librerias.sh” en la carpeta del proyecto, que contiene los comandos para instalar todas las librerías de forma automática. Para ejecutar este archivo, se debe ingresar el siguiente comando en la terminal: ./instalar_librerias.sh
+
+### Notas
+Este proyecto se encuentra en desarrollo y puede estar sujeto a cambios y mejoras adicionales.
