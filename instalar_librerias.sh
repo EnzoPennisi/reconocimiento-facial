@@ -5,3 +5,4 @@ pip install opencv-python
 pip install matplotlib
 pip install mtcnn
 pip install tensorflow
+pip install mysql.connector
