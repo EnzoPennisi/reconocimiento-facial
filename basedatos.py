@@ -18,3 +18,22 @@ def escribirArchivo(data, path):
     with open(path, 'wb') as file:
         file.write(data)
 
+def obtenerUsuarios():
+    try:
+        con = bd.connect(host=keys["host"], user=keys["user"], password=keys["password"], database=keys["database"])
+        cursor = con.cursor()
+        sql = "SELECT idUser, name FROM `user`"
+
+        cursor.execute(sql)
+        records = cursor.fetchall()
+
+        usuarios = [(row[0], row[1]) for row in records]
+
+        return usuarios
+    except bd.Error as e:
+        print(f"Error al obtener la lista de usuarios: {e}")
+    finally:
+        if con.is_connected():
+            cursor.close()
+            con.close()
+
