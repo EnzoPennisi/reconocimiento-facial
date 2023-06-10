@@ -18,6 +18,30 @@ def escribirArchivo(data, path):
     with open(path, 'wb') as file:
         file.write(data)
 
+def obtenerUsuario(name, path):
+    id = 0
+    rows = 0
+
+    try:
+        con = bd.connect(host=keys["host"], user=keys["user"], password=keys["password"], database=keys["database"])
+        cursor = con.cursor()
+        sql = "SELECT * FROM `user` WHERE name = %s"
+
+        cursor.execute(sql, (name,))
+        records = cursor.fetchall()
+
+        for row in records:
+            id = row[0]
+            escribirArchivo(row[2], path)
+        rows = len(records)
+    except bd.Error as e:
+        print(f"Failed to read image: {e}")
+    finally:
+        if con.is_connected():
+            cursor.close()
+            con.close()
+    return {"id": id, "affected": rows}
+
 def obtenerUsuarios():
     try:
         con = bd.connect(host=keys["host"], user=keys["user"], password=keys["password"], database=keys["database"])
@@ -37,3 +61,18 @@ def obtenerUsuarios():
             cursor.close()
             con.close()
 
+def borrarUsuario(user_id):
+    try:
+        con = bd.connect(host=keys["host"], user=keys["user"], password=keys["password"], database=keys["database"])
+        cursor = con.cursor()
+        sql = "DELETE FROM `user` WHERE idUser = %s"
+
+        cursor.execute(sql, (user_id,))
+        con.commit()
+    except bd.Error as e:
+        print(f"Error al borrar el usuario: {e}")
+    finally:
+        if con.is_connected():
+            cursor.close()
+            con.close()
+            
