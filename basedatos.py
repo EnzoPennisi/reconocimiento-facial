@@ -5,7 +5,6 @@ with open('keys.json') as json_file:
     keys = json.load(json_file)
 
 def convertirDatoBinario(filename):
-    # Convert digital data to binary format
     try:
         with open(filename, 'rb') as file:
             binaryData = file.read()
@@ -14,9 +13,31 @@ def convertirDatoBinario(filename):
         return 0
 
 def escribirArchivo(data, path):
-    # Convert binary data to proper format and write it on your computer
     with open(path, 'wb') as file:
         file.write(data)
+        
+def registrarUsuario(name, photo):
+    id = 0
+    inserted = 0
+
+    try:
+        con = bd.connect(host=keys["host"], user=keys["user"], password=keys["password"], database=keys["database"])
+        cursor = con.cursor()
+        sql = "INSERT INTO `user`(name, photo) VALUES (%s,%s)"
+        pic = convertirDatoBinario(photo)
+
+        if pic:
+            cursor.execute(sql, (name, pic))
+            con.commit()
+            inserted = cursor.rowcount
+            id = cursor.lastrowid
+    except bd.Error as e:
+        print(f"Failed inserting image: {e}")
+    finally:
+        if con.is_connected():
+            cursor.close()
+            con.close()
+    return {"id": id, "affected":inserted}
 
 def obtenerUsuario(name, path):
     id = 0
@@ -76,3 +97,16 @@ def borrarUsuario(user_id):
             cursor.close()
             con.close()
             
+def actualizarNombreUsuario(user_id, new_name):
+    try:
+        con = bd.connect(host=keys["host"], user=keys["user"], password=keys["password"], database=keys["database"])
+        cursor = con.cursor()
+        sql = "UPDATE `user` SET name = %s WHERE idUser = %s"
+        cursor.execute(sql, (new_name, user_id))
+        con.commit()
+    except bd.Error as e:
+        print(f"Error updating user name: {e}")
+    finally:
+        if con.is_connected():
+            cursor.close()
+            con.close()
