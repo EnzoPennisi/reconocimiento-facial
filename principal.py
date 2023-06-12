@@ -235,6 +235,39 @@ def ventanaIngreso():
     
     configurarPantalla(screen2, txt_ingreso, bg_img_ingreso)
     usuario_entry2 = configurarEntradaDatos(screen2, usuario2, 1)
+
+def mostrarUsuarios():
+    screen3 = Toplevel()
+    screen3.title("Lista de usuarios")
+    screen3.geometry("300x500")
+
+    usuarios_frame = Frame(screen3, bg='white')
+    usuarios_frame.pack(fill=BOTH, expand=True)
+
+    # Encabezado de la lista
+    header = Label(usuarios_frame, text='Lista de usuarios', font=('Arial', 14, 'bold'), bg='white')
+    header.pack(side=TOP, pady=10)
+
+    # Tabla de usuarios
+    usuarios_tabla = ttk.Treeview(usuarios_frame, columns=('ID', 'Nombre'), show='headings')
+    usuarios_tabla.heading('ID', text='ID', anchor='center')
+    usuarios_tabla.column('ID', width=50, anchor='center')
+    usuarios_tabla.heading('Nombre', text='Nombre', anchor='center')
+    usuarios_tabla.column('Nombre', width=200, anchor='center')
+    usuarios_tabla.pack(side=TOP, padx=10, pady=10, fill=BOTH, expand=True)
+
+    # Obtener la lista de usuarios
+    usuarios_lista = bd.obtenerUsuarios()
+    for usuario in usuarios_lista:
+        usuarios_tabla.insert('', END, values=usuario)
+
+    # Botón para borrar un usuario seleccionado en la lista
+    def borrarUsuarioSeleccionado():
+        item_seleccionado = usuarios_tabla.focus()
+        if item_seleccionado:
+            usuario_id = usuarios_tabla.item(item_seleccionado)['values'][0]
+            bd.borrarUsuario(usuario_id)
+
     
 def salir():
     # Cierra la ejecucion
