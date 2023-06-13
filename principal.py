@@ -7,6 +7,7 @@ from tkinter import ttk
 import cv2
 from mtcnn.mtcnn import MTCNN
 from matplotlib import pyplot as plt
+import basedatos as bd
 
 # Configuracion colores y letra
 path = os.getcwd() + "/"
@@ -267,6 +268,35 @@ def mostrarUsuarios():
         if item_seleccionado:
             usuario_id = usuarios_tabla.item(item_seleccionado)['values'][0]
             bd.borrarUsuario(usuario_id)
+            
+    def actualizarUsuarioSeleccionado():
+        item_seleccionado = usuarios_tabla.focus()
+        if item_seleccionado:
+            usuario_id = usuarios_tabla.item(item_seleccionado)['values'][0]
+            screen4 = Toplevel()
+            screen4.title("Actualizar nombre")
+            screen4.geometry("300x150")
+
+            Label(screen4, text="Nuevo nombre:").pack()
+            nuevo_nombre_entry = Entry(screen4)
+            nuevo_nombre_entry.pack()
+
+            def actualizarNombre():
+                nuevo_nombre = nuevo_nombre_entry.get()
+                bd.actualizarNombreUsuario(usuario_id, nuevo_nombre)
+                screen4.destroy()
+        else:
+            screen3.grab_set()
+            msg.showwarning("Advertencia", "Por favor seleccione un usuario antes de actualizar")
+            
+        Button(screen4, text="Actualizar", command=actualizarNombre).pack()
+        
+    btn_borrar = Button(usuarios_frame, text='Borrar usuario', command=borrarUsuarioSeleccionado, font=('Arial', 10, 'bold'), fg='red')
+    btn_borrar.pack(side=BOTTOM, pady=10)
+
+    btn_actualizar = Button(usuarios_frame, text='Actualizar nombre', command=actualizarUsuarioSeleccionado, font=('Arial', 10, 'bold'), fg='blue')
+    btn_actualizar.pack(side=BOTTOM, pady=10)
+                    
 
     
 def salir():
