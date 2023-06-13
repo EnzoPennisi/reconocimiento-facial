@@ -76,14 +76,6 @@ def configurarEntradaDatos(screen, var, flag):
     return entry
 
 def recortarRostro(img, faces):
-    # Recorta y guarda la seccion del rostro utilizada por el detector
-    
-    path_registro = os.getcwd() + "/Capturas Registro"
-    
-    #Crear una carpeta para guardar las capturas de registro en caso de que no exista
-    if not os.path.exists(path_registro):
-        os.makedirs(path_registro);
-    
     data = plt.imread(img)
     for i in range(len(faces)):
         x1, y1, ancho, alto = faces[i]["box"]
@@ -91,8 +83,7 @@ def recortarRostro(img, faces):
         plt.subplot(1,len(faces), i + 1)
         plt.axis("off")
         face = cv2.resize(data[y1:y2, x1:x2],(150,200), interpolation=cv2.INTER_CUBIC)
-        nombre_imagen = f"{path_registro}/{img}"
-        cv2.imwrite(nombre_imagen, face)
+        cv2.imwrite(img, face)
         plt.imshow(data[y1:y2, x1:x2])
 
 # REGISTRO ---------------------------------------------------------------- 
