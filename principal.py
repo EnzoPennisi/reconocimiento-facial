@@ -28,6 +28,7 @@ color_exito = "\033[1;32;40m"
 color_error = "\033[1;31;40m"
 color_normal = "\033[0;37;40m"
 
+res_bd = {"id": 0, "affected": 0} #retorno variable base de datos | id: idUsuario | affected: booleano 0/1
 
 # GENERAL ----------------------------------------------------------------
 def saltoDeLinea(screen):
@@ -95,6 +96,18 @@ def recortarRostro(img, faces):
         plt.imshow(data[y1:y2, x1:x2])
 
 # REGISTRO ---------------------------------------------------------------- 
+def registrarRostroBD(img):
+    nombre_usuario = img.replace(".jpg","").replace(".png","")
+    res_bd = bd.registrarUsuario(nombre_usuario, path + img)
+
+    saltoDeLinea(screen1)
+    
+    if(res_bd["affected"]):
+        imprimirMensaje(screen1, "¡Éxito! Ha sido registrado correctamente", 1)
+    else:
+        imprimirMensaje(screen1, "¡Error! No ha sido registrado correctamente", 0)
+    os.remove(img)
+    
 def capturarRostroRegistro():
     # Captura el rostro al registrarse y envia un mensaje con los resultados del mismo
     
@@ -137,8 +150,7 @@ def capturarRostroRegistro():
         pixeles = plt.imread(img)
         faces = MTCNN().detect_faces(pixeles)
         recortarRostro(img, faces)
-        os.remove(img)
-        imprimirMensaje(screen1, "¡Registro Exitoso!", 1) 
+        registrarRostroBD(img)
     else:
         cap.release()
         cv2.destroyAllWindows()
@@ -203,25 +215,28 @@ def capturarRostroIngreso():
     recortarRostro(img, faces)
     saltoDeLinea(screen2)
     
-    path_registro = os.path.join(os.getcwd(), "Capturas Registro")
-    path_imagenUsuario = os.path.join(path_registro, img_usuario)
-    path_imagenLogin = os.path.join(path_registro, img)
-    if os.path.exists(path_imagenUsuario):
-        face_reg = cv2.imread(path_imagenUsuario, 0)
-        face_ing = cv2.imread(img, 0)
+    res_bd = bd.obtenerUsuario(usuario_ingreso, path + img_usuario)
+    if(res_bd["affected"]):
+        my_files = os.listdir()
+        if img_usuario in my_files:
+            face_reg = cv2.imread(img_usuario, 0)
+            face_ing = cv2.imread(img, 0)
 
-        comp = compatibilidad(face_reg, face_ing)
-        compResul = "{}Compatibilidad del {:.1%}{}".format(color_error, float(comp), color_normal)
-        porcentaje = float(comp) * 100
-        if comp >= 0.93:
-            print(compResul)
-            imprimirMensaje(screen2, f"Bienvenido, {usuario_ingreso}", 1)
+            comp = compatibilidad(face_reg, face_ing)
+            compResul = "{}Compatibilidad del {:.1%}{}".format(color_error, float(comp), color_normal)
+            porcentaje = float(comp) * 100
+            if comp >= 0.90:
+                print(compResul)
+                imprimirMensaje(screen2, f"Bienvenido, {usuario_ingreso}", 1)
+            else:
+                print(compResul)
+                imprimirMensaje(screen2, f"¡Error! Incompatibilidad de datos {porcentaje}%", 0)
+            os.remove(img_usuario)
+            
         else:
-            print(compResul)
-            imprimirMensaje(screen2, f"¡Error! Incompatibilidad de datos {porcentaje}%", 0)
+            imprimirMensaje(screen2, "¡Error! Usuario no encontrado", 0)
     else:
         imprimirMensaje(screen2, "¡Error! Usuario no encontrado", 0)
-    os.remove(path_imagenLogin)
     os.remove(img)
 
 def ventanaIngreso():
@@ -269,6 +284,12 @@ def mostrarUsuarios():
             usuario_id = usuarios_tabla.item(item_seleccionado)['values'][0]
             bd.borrarUsuario(usuario_id)
             
+            # Actualizar la lista de usuarios después de borrar uno
+            usuarios_tabla.delete(*usuarios_tabla.get_children())
+            usuarios_lista = bd.obtenerUsuarios()
+            for usuario in usuarios_lista:
+                usuarios_tabla.insert('', END, values=usuario)
+            
     def actualizarUsuarioSeleccionado():
         item_seleccionado = usuarios_tabla.focus()
         if item_seleccionado:
@@ -285,6 +306,12 @@ def mostrarUsuarios():
                 nuevo_nombre = nuevo_nombre_entry.get()
                 bd.actualizarNombreUsuario(usuario_id, nuevo_nombre)
                 screen4.destroy()
+                
+                # Actualizar la lista de usuarios después de actualizar uno
+                usuarios_tabla.delete(*usuarios_tabla.get_children())
+                usuarios_lista = bd.obtenerUsuarios()
+                for usuario in usuarios_lista:
+                    usuarios_tabla.insert('', END, values=usuario)
         else:
             screen3.grab_set()
             msg.showwarning("Advertencia", "Por favor seleccione un usuario antes de actualizar")
@@ -336,6 +363,9 @@ Button(text=txt_ingreso, fg=color_blanco, bg=color_negro_btn, activebackground=c
 
 saltoDeLinea(root)
 Button(text=txt_registro, fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40", command=ventanaRegistro).pack()
+
+saltoDeLinea(root)
+Button(text="Mostrar usuarios", fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40", command=mostrarUsuarios).pack()
 
 saltoDeLinea(root)
 Button(text="Salir", fg=color_blanco, bg=color_negro_btn, activebackground=color_background, borderwidth=0, font=(font_label, 14), height="2", width="40", command=salir).pack()
