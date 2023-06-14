@@ -13,11 +13,16 @@ La aplicación utiliza la biblioteca Tkinter para crear una interfaz gráfica de
 
 ### Objetivos generales:
 
-    * Investigar y comprender el funcionamiento del reconocimiento facial.
-    * Seleccionar y estudiar lo necesario para el desarrollo del proyecto.
-    * Diseñar e implementar un prototipo de autenticación basado en reconocimiento facial.
-    * Evaluar la precisión y la eficacia del sistema propuesto.
-    * Integrar el sistema con una base de datos
+    * Investigar y comprender el funcionamiento del reconocimiento facial, incluyendo técnicas y algoritmos utilizados en el procesamiento de imágenes.
+    * Seleccionar y estudiar las herramientas y tecnologías necesarias para el desarrollo del sistema de autenticación basado en reconocimiento facial.
+    * Diseñar e implementar un prototipo funcional de autenticación basado en reconocimiento fa-cial, que permita identificar y autenticar a los usuarios utilizando sus características faciales.
+    * Evaluar la precisión y la eficacia del sistema propuesto mediante pruebas y análisis de su rendimiento en diferentes condiciones de iluminación, ángulos y variaciones faciales.
+    * Integrar el sistema de autenticación con una base de datos relacional SQL para almacenar y gestionar los registros de usuarios de manera eficiente
+    * Utilizar técnicas de optimización en la base de datos SQL para mejorar el rendimiento del almacenamiento y la gestión de los registros de usuarios.
+    * Facilitar el proceso de registro de nuevos usuarios, proporcionando una interfaz intuitiva y amigable que capture y almacene sus datos faciales en la base de datos.
+    * Eliminar la carpeta "Capturas Registro" del proyecto para reducir el tamaño total y mejorar la organización del sistema.
+    * Ofrecer opciones para administrar los datos de los usuarios, permitiendo actualizar, eliminar o visualizar la información almacenada en la base de datos.
+    * Realizar pruebas exhaustivas del sistema, asegurando su estabilidad, seguridad y usabilidad en entornos reales.
 
 ### Marco Teorico:
 
@@ -28,15 +33,24 @@ El proyecto requería el uso del lenguaje de programación Python, del cual no t
 El programa ofrece las siguientes funcionalidades:
 
 ####    Registro:
-Al hacer clic en el botón "Registrarse", se abrirá una ventana emergente donde los usuarios pueden ingresar su nombre de usuario y capturar una imagen de su rostro. Para capturar la imagen, se utiliza la cámara web del dispositivo. Después de capturar la imagen, se recorta la sección del rostro detectada utilizando el detector de rostros MTCNN y se guarda en una carpeta llamada "Capturas Registro". Posteriormente, se muestra un mensaje de éxito en la ventana emergente y se informa al usuario que el registro ha sido exitoso.
+
+Al hacer clic en el botón "Registrarse", se abrirá una ventana emergente donde los usuarios pueden ingresar su nombre de usuario y capturar una imagen de su rostro. Para capturar la imagen, se utiliza la cámara web del dispositivo. Después de capturar la imagen, se recorta la sección del rostro detectada utilizando el detector de rostros MTCNN y se guarda en la base de datos. Posteriormente, se muestra un mensaje de éxito en la ventana emergente y se informa al usuario que el registro ha sido exitoso.
 
 ####    Inicio de Sesión:
+
 Al hacer clic en el botón "Inicio de Sesión", se abrirá otra ventana emergente donde los usuarios pueden ingresar su nombre de usuario y capturar una imagen de su rostro. Similar al proceso de registro, se captura la imagen y se recorta la sección del rostro utilizando MTCNN. Luego, se compara esta imagen con la imagen de registro previamente guardada para determinar la compatibilidad. Si el grado de compatibilidad supera un umbral predeterminado, se muestra un mensaje de éxito en la ventana emergente y se informa al usuario que ha iniciado sesión correctamente. De lo contrario, se muestra un mensaje de error indicando que la imagen capturada no coincide con la imagen de registro.
 
+####    Mostrar usuarios:
+
+Al hacer clic, permite visualizar todos los usuarios registrados en la base de datos.
+Al utilizar esta función, se despliega una lista completa de los usuarios registrados, incluyendo sus nombres y datos relevantes. Esta visualización brinda la posibilidad de administrar los usuarios de manera más eficiente, permitiendo realizar acciones como la edición de información, eliminación de usuarios o simplemente visualizar los detalles asociados a cada uno de ellos.
+
 ####    Salir:
+
 Al hacer clic en el botón "Salir", se cierra la aplicación y finaliza la ejecución del programa.
 
 ### Requisitos:
+
 El programa requiere las siguientes bibliotecas y componentes:
 
     * Tkinter: Biblioteca para crear interfaces gráficas de usuario en Python.
@@ -72,6 +86,3 @@ A lo largo del proyecto, se enfrentaron desafíos significativos, como el aprend
 El proyecto se ha desarrollado utilizando la versión de Python que viene instalada por defecto con la versión de Ubuntu 22.04.2 LTS.
 Este requiere de una serie de librerías que deben ser instaladas previamente para garantizar su correcto funcionamiento. Estas librerías son: pip, tkinter, opencv, matplotlib, mtcnn y tensorflow. Además, se deben instalar las dependencias necesarias para cada una de estas librerías.
 Para facilitar el proceso de instalación, se proporciona un archivo llamado “instalar_librerias.sh” en la carpeta del proyecto, que contiene los comandos para instalar todas las librerías de forma automática. Para ejecutar este archivo, se debe ingresar el siguiente comando en la terminal: ./instalar_librerias.sh
-
-### Notas
-Este proyecto se encuentra en desarrollo y puede estar sujeto a cambios y mejoras adicionales.
