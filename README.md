@@ -19,13 +19,6 @@ La aplicación utiliza la biblioteca Tkinter para crear una interfaz gráfica de
     * Evaluar la precisión y la eficacia del sistema propuesto.
     * Integrar el sistema con una base de datos
 
-### Objetivos a futuro:
-
-    * Incorporar una base de datos relacional SQL que permita optimizar el almacenamiento y la gestión de los registros de usuarios.
-    * Facilitar el proceso de registro.
-    * Eliminar la carpeta “Capturas Registro”, para reducir el tamaño total del proyecto.
-    * Ofrecer opciones para administrar los datos de los usuarios.
-
 ### Marco Teorico:
 
 El proyecto requería el uso del lenguaje de programación Python, del cual no teníamos ningún conocimiento previo. Por lo tanto, se decidió iniciar una investigación sobre las características, posibilidades y aplicaciones de este lenguaje, así como su sintaxis y estructura. El aprendizaje de un nuevo lenguaje en un plazo tan corto fue un desafío que nos generó muchos errores y dificultades. Sin embargo, pudimos contar con el apoyo de algunas personas que poseían un conocimiento básico de Python y que nos orientaron en algunos aspectos fundamentales. Además, recurrimos a diversas fuentes de información en línea, como guías y tutoriales, que nos facilitaron el proceso de aprendizaje y nos permitieron avanzar en el desarrollo del proyecto.
@@ -43,7 +36,6 @@ Al hacer clic en el botón "Inicio de Sesión", se abrirá otra ventana emergent
 ####    Salir:
 Al hacer clic en el botón "Salir", se cierra la aplicación y finaliza la ejecución del programa.
 
-
 ### Requisitos:
 El programa requiere las siguientes bibliotecas y componentes:
 
@@ -59,15 +51,21 @@ Para ejecutar el programa, asegúrese de tener instaladas las bibliotecas mencio
 
 Una vez que el código y las imágenes están configurados, puede ejecutar el programa ejecutando el archivo .py. Se abrirá una ventana principal que le permitirá seleccionar la opción de inicio de sesión o registro.
 
-### Conclusión (parcial):
+### Conclusión:
 
-Este proyecto de investigación se ha centrado en el desarrollo y aplicación de un sistema de autenticación que usa reconocimiento facial con Python en Linux. Mediante el uso de bibliotecas como Tkinter y OpenCV, se consiguió crear un prototipo funcional que permite a los usuarios registrarse y acceder al sistema usando imágenes faciales en vez de contraseñas.
+Este proyecto de investigación se centró en el diseño e implementación de un sistema de autenticación basado en reconocimiento facial utilizando Python en Linux. El objetivo principal fue reemplazar el uso de contraseñas en el proceso de inicio de sesión, brindando una alternativa más segura y conveniente para los usuarios.
 
-A lo largo del desarrollo del proyecto, se exploraron y entendieron los principios del reconocimiento facial, se escogieron y analizaron los componentes necesarios para su aplicación, y se logró diseñar e implementar un sistema capaz de capturar, procesar y comparar imágenes faciales para autenticar a los usuarios.
+Durante el desarrollo del proyecto, se investigaron y comprendieron los fundamentos del reconocimiento facial, incluyendo técnicas y algoritmos utilizados en el procesamiento de imágenes. Se seleccionaron y estudiaron las herramientas y tecnologías necesarias, como Tkinter para la interfaz gráfica de usuario, OpenCV para la captura y procesamiento de imágenes, y MTCNN para la detección de rostros.
 
-La evaluación de la exactitud y eficiencia del sistema propuesto mostró resultados prometedores, aunque es importante tener en cuenta que todavía hay retos y oportunidades de mejora. En ese sentido, se plantearon objetivos a futuro, como la incorporación de una base de datos relacional SQL para optimizar el almacenamiento y gestión de registros de usuarios, la simplificación del proceso de registro, la reducción del tamaño del proyecto eliminando la carpeta de capturas de registro y la implementación de opciones para administrar los datos de los usuarios.
+Se logró diseñar e implementar un prototipo funcional que permitía identificar y autenticar a los usuarios utilizando sus características faciales. Se realizaron pruebas exhaustivas para evaluar la precisión y eficacia del sistema en diferentes condiciones de iluminación, ángulos y variaciones faciales.
 
-En suma, este proyecto ha establecido las bases para la aplicación de un sistema de autenticación que usa reconocimiento facial, ofreciendo una alternativa segura y conveniente a las contraseñas tradicionales. Con mejoras y refinamientos adicionales, este sistema tiene el potencial de ser una solución efectiva y confiable en entornos de autenticación.
+Además, se integró el sistema de autenticación con una base de datos relacional SQL para almacenar y gestionar los registros de usuarios de manera eficiente. Se utilizaron técnicas de optimización en la base de datos para mejorar el rendimiento del almacenamiento y la gestión de los registros de usuarios.
+
+El proceso de registro de nuevos usuarios se facilitó mediante una interfaz intuitiva y amigable que capturaba y almacenaba sus datos faciales en la base de datos. Se implementaron opciones para administrar los datos de los usuarios, permitiendo actualizar, eliminar o visualizar la información almacenada.
+
+En términos de funcionalidades, el programa ofrecía la capacidad de registro de nuevos usuarios, inicio de sesión basado en reconocimiento facial, visualización de usuarios registrados y salida del programa.
+
+A lo largo del proyecto, se enfrentaron desafíos significativos, como el aprendizaje de Python en un plazo corto de tiempo y la resolución de errores y dificultades asociadas al uso de nuevas tecnologías. Sin embargo, el trabajo en equipo, el apoyo de personas con conocimientos previos y la búsqueda de información en línea fueron recursos clave para superar estos obstáculos y avanzar en el desarrollo del proyecto.
 
 ### Instructivo para compilar el proyecto: 
 
